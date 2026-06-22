@@ -30,10 +30,7 @@ public class BookService {
 
 
     public List<Book> getBookByGenre(String genre) {
-        return bookRepository.findAll()
-                .stream()
-                .filter(book -> book.getGenre() != null && book.getGenre().equalsIgnoreCase(genre))
-                .toList();
+        return bookRepository.findByGenreIgnoreCase(genre);
     }
 
     public void deleteBook(Long id) {

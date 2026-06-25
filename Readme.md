@@ -1,6 +1,7 @@
 # 📚 Book Library API
 
-A RESTful API for managing a personal book library, built with Java and Spring Boot. Supports full CRUD operations, genre filtering, and marking books as read.
+A RESTful API for managing a personal book library, built with Java and Spring Boot. Supports full CRUD operations, genre filtering, and marking books as read. Includes a unit test suite written with JUnit 5, Mockito, and AssertJ.
+
 
 ## Tech Stack
 
@@ -34,6 +35,22 @@ HTTP Request → Controller → Service → Repository → PostgreSQL
 | `DELETE` | `/api/v1/book/{id}` | Delete a book |
 
 Returns `404` with a descriptive message when a book ID does not exist.
+
+## Testing
+
+Unit tests for the service layer using JUnit 5, Mockito, and AssertJ. The repository is mocked so tests run without a real database.
+
+| Test | What it verifies |
+|------|-----------------|
+| `canGetAllBooks` | Service delegates to `repository.findAll()` |
+| `getCorrectBookById` | Returns the correct book when ID exists |
+| `throwWhenIdNotFound` | Throws `BookNotFoundException` with correct message when ID doesn't exist |
+| `markAsRead` | Sets `readStatus` to true and calls `repository.save()` |
+
+Run tests:
+```bash
+./mvnw test
+```
 
 ## Getting Started
 
@@ -83,3 +100,4 @@ curl -X PATCH http://localhost:8080/api/v1/book/1/read
 - Proper HTTP status codes and global exception handling with `@RestControllerAdvice`
 - Partial updates with `PATCH` vs full replacement with `PUT`
 - Running PostgreSQL via Docker Compose
+- Unit testing the service layer with JUnit 5, Mockito mocks, and AssertJ assertions

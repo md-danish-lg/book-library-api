@@ -12,9 +12,11 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+    private final AiService aiService;
 
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, AiService aiService) {
         this.bookService = bookService;
+        this.aiService = aiService;
     }
 
     @GetMapping
@@ -29,6 +31,13 @@ public class BookController {
     @GetMapping("{id}")
     public Book getBooksById(@PathVariable Long id){
         return bookService.getBook(id);
+    }
+
+    @GetMapping("{id}/summarize")
+    public ResponseEntity<String> summarizeBook(@PathVariable Long id){
+        Book book = bookService.getBook(id);
+        String summary = aiService.summarize(book.getTitle() + " by " + book.getAuthor());
+        return ResponseEntity.ok(summary);
     }
 
 
